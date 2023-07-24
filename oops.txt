@@ -1,0 +1,453 @@
+Oops - object oriented programming
+
+object = real world entity that can be felt or exist.
+class = definition
+function = function always stand alone
+method = method are always called with obeject reference.
+class Hello:
+	def show(self):
+		print("hello")
+		
+obj = Hello() #obj = object , show = method , Hello = class
+obj.show()
+
+Constructor 
+it is used to allocate memory for object by default every class must have one contructor.
+1.) default constructor = we dont create it it just comes w the class, even if we dont make it.
+2.) no args constructor(zero arguement constructor) = when we create a constructor but didnt pass any args
+
+
+class Demo:
+    def __init__(self):
+        print('Memory initialized')
+    def show(self,name):
+        print('welcome',name)
+a1 = Demo()  
+a1.show('yamini')
+
+Memory initialized
+welcome yamini
+
+
+3.) parametrize constructor = when we create a constructor but did pass the args 
+
+class Ducat:
+    def __init__(self,x,y): # x,y = local variable
+        k = x+y
+        print('total',k)
+        
+    def show(self):
+        k = x+y
+        
+ob = Ducat(23,12)
+ob.show()
+
+total 35
+---------------------------------------------------------------------------
+NameError                                 Traceback (most recent call last)
+Input In [9], in <cell line: 10>()
+      7         k = x+y
+      9 ob = Ducat(23,12)
+---> 10 ob.show()
+
+Input In [9], in Ducat.show(self)
+      6 def show(self):
+----> 7     k = x+y
+
+NameError: name 'x' is not defined
+
+
+constructor are created inside class with __init__ 
+constructor are not called, it fired when onject is created.
+constructordont have return type.
+
+Destructor
+it is used to destroy all the allocated memory at runtinme.
+destrucot is created with __del__
+every class must have one destructor
+destructor always called at the end of the execution automatically.
+
+
+class Ducat:
+    def __init__(self,x,y): # x,y = local variable
+        k = x+y
+        print('total',k)
+    def __del__(Self):
+        print('memory cleaned')
+    def greet(self):
+        print('hi hello')
+
+ob = Ducat(23,12)
+ob.greet()
+print('continure...')
+
+total 35
+hi hello
+continure...
+memory cleaned  (read line 4th)
+
+
+Instance (self.) = can be accessed in whole class, for using it outside th eclass we need to use it with object.
+
+class Demo:
+    def __init__(self,x,y):
+        self.localx = x
+        self.localy = y
+    def add(self):
+        k = self.localx + self.localy
+        print(k)
+
+ob = Demo(20,30)
+ob.add()
+print(ob.localx)
+
+50
+20
+
+
+Private variable(__name)
+it cant be accessed outside the class but it can only be used within the class.
+
+
+class Demo:
+    def show(self):
+        self.__name = input("student name")
+        print("hello",self.__name)
+    def display(self):
+        print('welcome', self.__name)
+ob = Demo()
+ob.show()
+ob.display()
+#print(ob.__name) we cant access private variable outside the class or it will show error.
+
+
+student namedevanshi
+hello devanshi
+welcome devanshi
+
+class variable or static variable are declared inside the class and it can access with name of the class.
+class variable initiakize when first object is created, all other object of the class share same memory location are initiallize when first object is created.
+
+class Demo:
+    x = 10 # class variable
+    def __init__(self): # constructor
+        self.x = 10 # instance variable
+    def add(self): # method
+        self.x += 1
+        Demo.x += 1
+        print('instance' , self.x)
+        print('class', Demo.x)
+        
+obj1 = Demo()
+obj2 = Demo()
+obj3 = Demo()
+obj4 = Demo()
+obj1.add()
+obj2.add()
+obj3.add()
+obj4.add()
+
+
+instance 11
+class 11
+instance 11
+class 12
+instance 11
+class 13
+instance 11    # its value isnt increasing as instance variable is reallocated with every object.
+class 14  # it is increasing as it takes memory with the first object only and give that memory to every object that is created after that.
+​
+class ducat:
+    def __init__(self):
+        self.name = ""
+    def sayHello(self):
+        self.name = input('enter name')
+        print("Hello",self.name)
+    def greet(self):    
+        age = 23
+        print("welcome ",self.name, "you are ",age,"year old")
+
+ob = ducat()
+ob.sayHello()
+ob.greet()
+print("thanks",ob.name)
+
+enter namedevanshi
+Hello devanshi
+welcome  devanshi you are  23 year old
+thanks devanshi
+
+ 
+
+5 Featiures of Oops
+-Polymorphism - are created w 2 words poly(multi)-morphism(method)
+	method overloading(not supported by python) - a single class more than one method names are same but arguement inside the name or method are different.
+	method overriding - whenever base class and child class both have same method name and arguement. 
+						In case of method over riding client object can access own method not parent method.
+	class method_overriding:
+    def show(self):
+        print("sai")
+    def show(self,name):
+        print('hello',name)
+        
+	obj = method_overriding()
+	obj.show('Sai Ram')
+	obj.show() #it wont call first method as the definition of method over riding.
+
+	hello Sai Ram
+---------------------------------------------------------------------------
+TypeError                                 Traceback (most recent call last)
+Input In [47], in <cell line: 9>()
+      7 obj = method_overriding()
+      8 obj.show('Sai Ram')
+----> 9 obj.show()
+
+TypeError: show() missing 1 required positional argument: 'name'
+
+
+-Inheritance
+Over riding isn't possible without inheritance
+child can access all upper classes but parent can access only whatever comes in its own space.
+
+class Parent:
+    def show(self):
+        self.x=10
+        print("hello im parent")
+class Child(Parent):
+    def add(self,y):
+        k=self.x+y
+        print('total',k)
+        
+ob=Child()
+ob.show()
+ob.add(34)
+
+hello im parent
+total 44 
+
+Super(). === super method is used to call base class constructor and method.
+
+1.)Single Inheritance
+
+class Base:
+    def __int__(self):
+        print('Hello Base')
+    def showbase(self):
+        print('Hello i from base')
+class derived(Base):
+    def __init__(self):
+        super().__init__()
+        print('Hello Derived')
+    def showderived(self):
+        print('Hello from derived')
+        
+ob = derived()
+ob.showbase()
+ob.showderived()
+
+Hello base
+Hello Derived
+Hello i from base
+Hello from derived
+
+
+2.)Multi Level Inheritance
+
+class Aone:
+	def __init__(self):
+		print('one')
+	def show1(self):
+		print('Hello one')
+class Bone(Aone):
+	def __init__(self):
+		super().__init__()
+		print('Two')
+	def show2(self):
+		print('Hello Two')
+class Cone(Bone):
+	def __init__(self):
+		super().__init__()
+		print('Three')
+	def show3(self):
+		print('Hello Three')
+	
+ob = Cone()
+ob.show1()
+ob.show2()
+ob.show3()	 
+
+one
+Two
+Three
+Hello one
+Hello Two
+Hello Three
+==============================
+	  
+class Student:
+	def setInfo(self):
+		self.name=input('Name ')
+		self.age =int(input('age '))
+class Marks(Student):
+	def setMarks(self):
+		self.p = int(input('Phy '))
+		self.c = int(input('che '))
+		self.m = int(input('Maths '))
+class Result(Marks):
+	def showResult(self):
+		total = self.p + self.c + self.m
+		print('Name ',self.name)
+		print('Age ',self.age)
+		print('Total Marks ',total)
+		
+obj = Result()
+obj.setInfo()
+obj.setMarks()
+obj.showResult()
+
+Name devanshi
+age 21
+Phy 43
+che 53
+Maths 45
+Name  devanshi
+Age  21
+Total Marks  141
+
+3.)Multiple Inheritance
+
+class Gone:
+	def __init__(self):
+		print('Initialize 1')
+	def show1(self):
+		print('hello one')
+class Done:
+    def __init__(self):
+		print('Initialize 2')
+	def show2(self):
+		print('Hello Two')
+class Final(Gone,Done): #Gone is super parent and Done is sub parent
+	def __init__(self):
+		super().__init__()
+	    Done.__init__(self)
+		print('Done')
+	def display(self):
+		print('hi')
+		
+obj = Final()
+obj.show1()
+obj.show2()
+obj.display()
+
+Initialize 1
+Initialize 2
+Done
+hello one
+Hello Two
+hi
+
+
+4.)Hybrid Inheritance
+
+class University:
+    def __init__(self):
+        print("constructur of the base class")
+        self.univ = 'sarda'
+    def display(self):
+        print(f"The university name is {self.univ}")
+
+class Course(University):
+    def __init__(self):
+        print("constructor of the child class1 of class university")
+        self.course = 'CSE'
+    def display(self):
+        print(f"The course name is {self.course}")
+        Univeristy.display(self)
+class Branch(University):
+    def __init__(self):
+        print("constructor of the child class2 of class university")
+        self.branch = 'Data science'
+    def display(self):
+        print(f"The branch name is {self.branch}")
+class Student(Course,Branch):
+    def __init__(self):
+        print("constructor of the child class of class Course and Branch")
+        self.name = input('student name ')
+        Branch.__init__(self)
+        Course.__init__(self)
+    def display(self):
+        print(f"The name of the student is {self.name}")
+        Branch.__init__(self)
+        Course.__init__(self)
+
+        
+ob = Student()
+print()
+ob.display()
+
+constructor of the child class of class Course and Branch
+student name devanshi
+constructor of the child class2 of class university
+constructor of the child class1 of class university
+
+The name of the student is devanshi
+constructor of the child class2 of class university
+constructor of the child class1 of class university
+
+
+-Encapsulation
+Encapsulation means hiding the method and variables and raping ones.
+
+class Nishika:
+	def __init__(self):
+		self.__name=''
+	def setName(self,name):
+		self.__name=name
+		print('set call')
+	def getName(self):
+		print('get call')
+		return self.__name
+	oname = property(getName,setName) #raping
+	
+ob = Nishika()
+ob.oname="ramesh"
+print(ob.oname)
+
+#ob.setName('ramesh')
+#print(ob.getName)
+
+ 
+-Abstraction
+In python to achieve abstraction we import abc module.
+it means all the method inside the class are only declared not defined.
+we cant create object of abstract class, it can only inherit.
+we use it to make prototype of projects.
+
+from abc import ABC,abstractmethod
+class Jatin(ABC):
+	@abstractmethod
+	def area(self,l,b):
+		pass
+	def add(self,*no):
+		pass
+		
+# obj = Jatin --- not possible 
+
+class Aone(Jatin):
+	def area(self,l,b):
+		a=l*b
+		print('Area is',a)
+	def add(Self,*no): # * can assign n number of arguements
+		k = sum(no)
+		print('Total',k)
+		
+ob = Aone()
+ob.area(30,40)
+ob.add(20,30,34)
+ob.add(30,40)
+
+Area is 1200
+Total 84
+Total 70
+
+

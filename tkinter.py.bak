@@ -1,0 +1,30 @@
+import tkinter
+
+color = 'lightblue'  # color our background
+
+
+class Application(tkinter.Frame):
+    def __init__(self, root=None):
+        super(Application, self).__init__(root)
+        self.frame_width = 700
+        self.frame_height = 400
+
+        # Set configuration our frame
+        self.config(width=self.frame_width, height=self.frame_height, bg=color)
+        self.pack()
+
+        # Create textBox for input data
+        self.textbox_one = tkinter.Text()
+        self.textbox_one.place(x=30, y=170, height=200, width=300)
+
+        # Create textBox for result
+        self.textbox_two = tkinter.Text()
+        self.textbox_two.place(x=370, y=170, height=200, width=300)
+
+        label_input_text = tkinter.Label(text="Input text: ", bg=color)
+        label_input_text.place(x=30, y=155, height=10, width=70)
+
+
+root = tkinter.Tk()
+app = Application(root)
+app.mainloop()

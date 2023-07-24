@@ -1,0 +1,409 @@
+Database - It is a raw space where we can create table, views, function, procedure, trigger etc.
+DBMS - database management system
+RDBMS - relational database management system
+ORDBMS - object relational database management system
+
+
+Constraints=========
+
+primary key - that cant be duplicate, cant be null, in one table only one primary key possible, also known as parent key.
+foriegn key - foriegn key are associated key of parent key, it can be null but it cant be another value in parent table. if primary key doesnt exixt in parent table, foriegn key can't
+be created. in a table multiple forieng key are possible.
+unique - arent duplicate and it also not asscoiated with child key and in a table multiple unique key are possible.
+default - it means if no value supply then it will assign default value.
+null - empty
+
+keyword============
+between 
+in
+check
+like
+exist
+not
+auto_increment
+references
+
+data types=========
+int - 11 digit number without decimal
+float - number with decimal value
+
+long - number more than 11 digit
+char - charachter with fixed size
+varchar - variable charachter
+lob - large object
+blob - binary large object
+nchar 
+datetime - yyyy-mm-dd
+
+mysQl is not case sensitive
+Create database DBname;
+show databases;
+use database; - to go inside the database
+
+to create table======
+create table tablename(
+fieldname1 dtype(size) constraints,
+fieldname2 dtype(size) constraints,
+fieldname3 dtype(size) constraints,);
+
+show tables; - to show table that are made
+describe tablename; - to see the structure of the table
+insert into tablename values(............);
+select *  from dept; - to show table values that are inserted.
+
+Normalization - connecting all the fields,  the process of organizing data into a related table
+
+1NF - writing all the attributes
+we need to stop data redundancy as we cant put all the attributes in one table
+2NF - dividing tables
+3NF - making relation between the tables
+
+1NF
+id
+ename
+mother_name
+dob
+phone
+num_of_workingdays
+basicsalary
+design
+dname
+hra
+da
+net_salary
+gross_salary
+
+2NF
+master===
+id 
+ename
+mother_name
+dob
+phone
+
+attendance====
+id
+year 
+month
+num_of_workingdays
+
+dept====
+deptno
+dname
+
+salary===
+id
+hra
+gross_salary
+net_salary
+
+3NF
+master===
+id primary key
+ename
+mother_name
+dob
+phone
+deptno Foriegn key
+
+attendance====
+id	Foriegn key
+year 
+month
+num_of_workingdays
+
+dept====
+deptno primary key
+dname
+
+salary===
+id	Foriegn key
+hra
+gross_salary
+net_salary
+
+
+database south
+DEPT
++--------+------------------+
+| deptno | dname            |
++--------+------------------+
+|      1 | Machine Learning |
+|     10 | Data Science     |
+|     20 | SDE              |
+|     30 | AI               |
+|     40 | Web developer    |
++--------+------------------+
+
+MASTER
++----+----------+-------------+---------------------+------------+--------+--------------+
+| id | ename    | mother_name | dob                 | phone      | deptno | basic_salary |
++----+----------+-------------+---------------------+------------+--------+--------------+
+|  1 | devanshi | archana     | 2000-11-19 00:00:00 | 9667196843 |     20 |        50000 |
+|  2 | shaurya  | seema       | 2000-05-25 00:00:00 | 9664596843 |     40 |        20000 |
+|  3 | shanu    | shasha      | 2000-02-21 00:00:00 | 9654296843 |     30 |        55000 |
+|  4 | dev      | kamls       | 2000-10-22 00:00:00 | 9654296253 |     10 |        20000 |
+|  5 | sandeep  | rekha       | 2001-01-11 00:00:00 | 8124296253 |      1 |        55000 |
++----+----------+-------------+---------------------+------------+--------+--------------+
+
+ATTENDENCE
++------+------+----------+--------------------+
+| id   | year | month    | no_of_working_days |
++------+------+----------+--------------------+
+|    1 | 2020 | january  |                100 |
+|    2 | 2021 | march    |                 90 |
+|    3 | 2021 | may      |                 90 |
+|    4 | 2022 | february |                 50 |
+|    5 | 2021 | march    |                 60 |
++------+------+----------+--------------------+
+
+
+running queries
+select *(all table) or tablename, .... from tab1, tab2,
+where condition
+order by tablename
+group by tablename
+having condition;
+
+rule:-
+having cant be used alone it always along with group clause.
+
+mysql> select ename,phone from master
+    -> where deptno=20;
+
+mysql> select ename,phone,basic_salary from master
+    -> where basic_salary > 30000;
+	
+mysql> select ename,phone,basic_salary from master
+    -> where ename like 'A%';
+Empty set (0.00 sec)
+
+mysql> select ename,phone,basic_salary from master
+    -> where ename like '_a%';
+	
+mysql> select ename,phone,basic_salary from master
+    -> where ename like '_a%' and basic_salary>40000;
+	
+mysql> select ename,phone,basic_salary from master
+    -> order by ename asc;
+
+mysql> select ename,phone,basic_salary from master
+    -> order by basic_salary asc;
+	
+mysql> select ename,phone,basic_salary from master
+    -> order by ename desc;
+
+how to change the name of attribute using sql queries
+mysql> select ename "Employee name",phone,basic_salary "Basic Salary" from master;
+
+change happened only in query not in the table lol :D,
+
+mysql> select ename,phone,basic_salary,deptno from master
+    -> where basic_salary between 30000 and 50000;
+	
+Functions
+to find the average
+mysql> select avg(basic_salary) from master;
+
+to find the min
+mysql> select min(basic_salary) from master;
+
+to find the max
+mysql> select max(basic_salary) from master;
+
+to fet the number of rows
+mysql> select count(*) from master;
+
+to get the sys date
+mysql> select sysdate();
+
+mysql> select upper(ename) from master;
+
+mysql> select lower(ename) from master;
+
+mysql> select substr(ename,1,3) from master;  [substr=substract from string]
++-------------------+
+| substr(ename,1,3) |
++-------------------+
+| dev               |
+| sha               |
+| sha               |
+| dev               |
+| san               |
++-------------------+
+
+mysql> select deptno,sum(basic_salary) from master
+    -> group by deptno;
+
+copy whole table into another
+mysql> 	
+
+truncate table (table name); - no condition or no selection of any column..
+it will delete all the record,
+cant be retrieved(rollback)
+
+delete; - can use condition
+can be rollback if not commited
+
+drop (table name);
+cant be rollback
+
+rollback; - deleted value is stored in buffer(recycle bin)
+
+alter table (tablename) modify (columnname) datatype(size);
+
+alter table (tablename) add (columnname) datatype(size);
+
+alter table (tablename) rename (columnname) (oldcolumn name) datatype(size);
+
+alter table (tablename) drop column (columnname);
+
+alter rule--
+when we modify..
+if we increase the size then its possible but if we want to decrease one then we have to first remove the data then decrease the size.
+
+difference between alter and update
+alter changes the structure and update changes the record
+	
+update tablname selt columnname = ' ' where columnname = '' ;
+	
+views
+create view master_view as select ename,mobile,basic_salary from master;
+descmaster_view; -- it will show master_view just like table
+view cant be alter and it is a replica of master table
+delete from master_view where = "condition"; --delete can be perform on view and it will be perform in master table.
+insert cant be performed in view either.
+	
+	
+=======PL-SQL===============
+
+PL/SQL has two types of subprograms called procedures and functions. Generally, you use a procedure to perform an action and a function to compute a value. 
+Like unnamed or anonymous PL/SQL blocks, subprograms have a declarative part, an executable part, and an optional exception-handling part.	
+
+
+procedure==  is group of objects that execcutes all the statements simuntaneously
+create procedure porcedurename(arg1, arg2,.....)
+begin
+	logic;
+end;
+
+arguements are of three types in pl-sql
+1. in input(default)
+2. out output
+3. in out input, output both
+
+ mysql> create table emp(
+    -> name varchar(30),
+    -> age int,
+    -> salary float);
+	
+	making procedure to insert the record.....
+	
+delimiter //	
+create procedure insemp( name varchar(30) , age int, sal float)
+begin
+insert into emp values( name, age, sal);
+end;
+// 
+delimiter ; 
+mysql> call insemp('vicky',20,20000);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> call insemp('kush',10,20000);
+Query OK, 1 row affected (0.01 sec)
+
+
+delimiter //
+create procedure updtemp( name varchar(30) , sal float)
+begin 
+update emp set salary = sal where name = na;
+end;
+//
+
+delimiter ; 
+
+call updtemp('kush',89999);
+
+delimiter //
+create procedure delemp( name varchar(30) , sal float)
+begin 
+delete from emp where name = na;
+end;
+//
+
+delimiter ; 
+
+call updtemp('kush',89999);
+
+
+function = group of statement that must return a value or proceduremay not be return value.
+
+delimiter $$
+create function functionname(arg1, arg2 ....)
+returns datatype deterministic
+begin
+	logic
+	return value;
+end;
+$$
+
+delimiter $$
+create function funsalary(name varchar(30))
+returns float deterministic
+begin
+declare msal float;
+select salary into msal where ename = name;
+return msal;
+end;
+$$
+
+delimiter $$ 
+declare mna varchar(30);
+declare msal float;
+begin
+msal = funsalary (mna); 
+
+Trigger = it is a self executing stored mysql procedure that call automatically when triggering event occur.
+there are 3 triggering event.
+1 insert
+2 update
+3 delete
+
+delimiter //
+create trigger name
+before insert or update or delete on tablename 
+for each row
+begin
+
+logic;
+
+end;
+//
+
+delimiter //
+create trigger trig
+before insert on emp
+for each row
+begin
+if(new.salary < 20000) then
+signal sqlstate '45000' set message_text = ' salary must be more than  20000';
+end if;
+end;
+//
+
+delimiter ;
+
+insert into values('raman', 10000);
+
+delimiter //
+create trigger trig
+before update on emp
+for each row
+begin
+if(new.salary < 20000) then
+signal sqlstate '45000' set message_text = ' salary must be more than  20000';
+end if;
+end;
+//
+
+delimiter ;
